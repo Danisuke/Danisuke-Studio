@@ -1,1 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101815">
+  <meta name="description" content="Masuki dunia kultivasi Divine Immortal Online. Tempa Qi, jelajahi puncak berkabut, dan raih keabadian.">
+  <title>Divine Immortal Online — Alam Kabut Abadi</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #101815;
+      --ink-soft: #17231e;
+      --jade: #9dc8a6;
+      --jade-bright: #c4e7c2;
+      --jade-dim: #668d71;
+      --gold: #d7bb7a;
+      --gold-bright: #f0dda7;
+      --paper: #f0eee3;
+      --muted: #a7b0a5;
+      --line: rgba(215, 187, 122, .22);
+      --glass: rgba(17, 26, 22, .82);
+      --serif: "Palatino Linotype", "Book Antiqua", "Noto Serif", Georgia, serif;
+      --sans: "Segoe UI", "Noto Sans", Arial, sans-serif;
+    }
 
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--ink); scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--paper);
+      background:
+        radial-gradient(ellipse at 50% 27%, rgba(86, 125, 99, .14), transparent 40%),
+        linear-gradient(180deg, #18231e 0%, #111a16 56%, #0d1411 100%);
+      font: 15px/1.5 var(--sans);
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
+    .grain {
+      position: fixed;
+      z-index: 8;
+      inset: 0;
+      pointer-events: none;
+      opacity: .14;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+    .topbar {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 82px;
+      padding: 0 clamp(20px, 5vw, 76px);
+      border-bottom: 1px solid rgba(215, 187, 122, .13);
+      background: rgba(13, 20, 17, .76);
+      backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 13px; }
+    .brand-mark {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid rgba(215, 187, 122, .54);
+      border-radius: 50%;
+      color: var(--gold-bright);
+      font: 22px var(--serif);
+      box-shadow: inset 0 0 16px rgba(215, 187, 122, .1), 0 0 18px rgba(215, 187, 122, .08);
+    }
+    .brand-name { font: 15px var(--serif); letter-spacing: .22em; }
+    .brand-name span { display: block; margin-top: 2px; color: var(--jade); font: 9px var(--sans); letter-spacing: .3em; }
+    .top-meta { display: flex; align-items: center; gap: clamp(14px, 3vw, 36px); color: var(--muted); font-size: 12px; }
+    .realm-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      color: var(--gold-bright);
+      letter-spacing: .04em;
+    }
+    .realm-pill svg { width: 15px; height: 15px; }
+    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: #9fc79d; box-shadow: 0 0 10px #9fc79d; }
+
+    main { max-width: 1440px; margin: auto; padding: 0 clamp(18px, 5vw, 76px) 60px; }
+    .hero {
+      position: relative;
+      min-height: min(670px, 68vw);
+      min-height: clamp(510px, 59vw, 670px);
+      margin: 0 calc(clamp(18px, 5vw, 76px) * -1);
+      overflow: hidden;
+      isolation: isolate;
+      background: #202c27;
+    }
+    .hero-art { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; }
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgba(13, 20, 17, .94) 0%, rgba(13, 20, 17, .67) 33%, rgba(13, 20, 17, .06) 76%),
+        linear-gradient(0deg, #111a16 0%, transparent 35%, rgba(14, 21, 17, .18) 100%);
+    }
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: min(100%, 660px);
+      min-height: inherit;
+      padding: 66px clamp(25px, 9vw, 132px) 96px clamp(25px, 8vw, 114px);
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 34px; height: 1px; content: ""; background: var(--gold); }
+    h1 {
+      margin: 18px 0 12px;
+      color: #f3eddb;
+      font: 500 clamp(43px, 6.5vw, 82px)/1.07 var(--serif);
+      letter-spacing: .035em;
+      text-shadow: 0 3px 30px rgba(0, 0, 0, .35);
+    }
+    h1 span { display: block; color: var(--gold-bright); font-size: .59em; letter-spacing: .2em; }
+    .hero-copy p { max-width: 390px; margin: 13px 0 27px; color: rgba(240, 238, 227, .77); font: 16px/1.8 var(--serif); }
+    .primary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: fit-content;
+      min-height: 49px;
+      padding: 0 23px;
+      border: 1px solid rgba(232, 214, 159, .68);
+      background: linear-gradient(135deg, rgba(202, 173, 109, .26), rgba(103, 126, 91, .2));
+      color: var(--gold-bright);
+      cursor: pointer;
+      letter-spacing: .13em;
+      transition: background .25s, transform .25s, box-shadow .25s;
+    }
+    .primary-action:hover { transform: translateY(-2px); background-color: rgba(202, 173, 109, .22); box-shadow: 0 8px 28px rgba(0, 0, 0, .24); }
+    .primary-action svg { width: 17px; height: 17px; }
+    .hero-caption {
+      position: absolute;
+      right: clamp(22px, 5vw, 72px);
+      bottom: 42px;
+      color: rgba(240, 238, 227, .68);
+      font: italic 13px var(--serif);
+      letter-spacing: .09em;
+    }
+    .hero-caption span { display: block; margin-top: 5px; color: var(--gold); font: 9px var(--sans); letter-spacing: .26em; text-align: right; text-transform: uppercase; }
+    .wind {
+      position: absolute;
+      top: 20%;
+      right: 12%;
+      width: 230px;
+      height: 230px;
+      border: 1px solid rgba(223, 213, 176, .13);
+      border-radius: 50%;
+      box-shadow: 0 0 100px rgba(221, 213, 172, .13), inset 0 0 70px rgba(221, 213, 172, .07);
+    }
+    .wind::before, .wind::after { position: absolute; inset: 18px; border: 1px solid rgba(223, 213, 176, .12); border-radius: 50%; content: ""; }
+    .wind::after { inset: 39px; }
+    .hero-seal {
+      position: absolute;
+      top: 28%;
+      right: 17%;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(237, 223, 182, .65);
+      border-radius: 50%;
+      color: rgba(248, 231, 187, .88);
+      font: 17px var(--serif);
+      transform: rotate(45deg);
+    }
+
+    .dashboard { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); gap: 21px; margin-top: 22px; }
+    .panel {
+      position: relative;
+      border: 1px solid rgba(215, 187, 122, .2);
+      background: linear-gradient(145deg, rgba(31, 44, 37, .88), rgba(19, 28, 23, .94));
+      box-shadow: 0 14px 40px rgba(0, 0, 0, .18);
+    }
+    .panel::before, .panel::after { position: absolute; width: 12px; height: 12px; content: ""; }
+    .panel::before { top: -1px; left: -1px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .panel::after { right: -1px; bottom: -1px; border-right: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 21px 24px 16px; }
+    .panel-title { display: flex; align-items: center; gap: 10px; font: 17px var(--serif); letter-spacing: .06em; }
+    .panel-title svg { width: 18px; height: 18px; color: var(--gold); }
+    .panel-label { color: var(--muted); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+    .cultivation { padding-bottom: 19px; }
+    .cultivation-body { display: grid; grid-template-columns: 90px 1fr; gap: 19px; align-items: center; padding: 7px 24px 19px; }
+    .avatar {
+      position: relative;
+      display: grid;
+      width: 84px;
+      height: 84px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(215, 187, 122, .45);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 35%, #516c59, #1a2a21 70%);
+      box-shadow: 0 0 28px rgba(120, 166, 126, .12), inset 0 0 16px rgba(13, 20, 17, .5);
+      color: #e5d6a5;
+      font: 38px var(--serif);
+    }
+    .avatar::after { position: absolute; inset: 6px; border: 1px solid rgba(215, 187, 122, .2); border-radius: inherit; content: ""; }
+    .cultivator-name { margin-bottom: 3px; font: 21px var(--serif); }
+    .cultivator-sub { color: var(--muted); font-size: 12px; }
+    .cultivator-sub strong { color: var(--jade-bright); font-weight: 500; }
+    .progress-head { display: flex; justify-content: space-between; margin: 15px 0 7px; color: var(--muted); font-size: 11px; }
+    .progress-head strong { color: var(--jade-bright); font-weight: 500; }
+    .progress-track { height: 7px; overflow: hidden; border: 1px solid rgba(157, 200, 166, .21); background: rgba(0, 0, 0, .24); }
+    .progress-fill { width: 64%; height: 100%; background: linear-gradient(90deg, #6e9f7a, #c0d99c); box-shadow: 0 0 12px rgba(157, 200, 166, .56); transition: width .5s ease; }
+    .cultivation-bottom { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 0 24px; padding-top: 14px; border-top: 1px solid rgba(215, 187, 122, .12); }
+    .qi-value { color: var(--jade-bright); font: 19px var(--serif); }
+    .qi-value small { margin-left: 4px; color: var(--muted); font: 10px var(--sans); }
+    .meditate-button {
+      min-height: 38px;
+      padding: 0 16px;
+      border: 1px solid rgba(157, 200, 166, .4);
+      background: rgba(105, 150, 112, .11);
+      color: var(--jade-bright);
+      cursor: pointer;
+      font-size: 11px;
+      letter-spacing: .1em;
+      transition: .2s;
+    }
+    .meditate-button:hover { border-color: var(--jade-bright); background: rgba(105, 150, 112, .22); }
+    .meditate-button.active { border-color: var(--gold); color: var(--gold-bright); }
+    .quest-panel { padding-bottom: 19px; }
+    .quest-count { color: var(--gold); font: 12px var(--serif); }
+    .quest-item { display: grid; grid-template-columns: 37px 1fr auto; align-items: center; gap: 12px; margin: 0 24px; padding: 14px 0; border-top: 1px solid rgba(215, 187, 122, .12); }
+    .quest-icon { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid rgba(215, 187, 122, .23); color: var(--gold); font: 16px var(--serif); }
+    .quest-name { color: var(--paper); font: 14px var(--serif); }
+    .quest-desc { margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .quest-reward { color: var(--gold); font: 11px var(--serif); white-space: nowrap; }
+
+    .lower-grid { display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: 21px; margin-top: 21px; }
+    .feature { min-height: 140px; padding: 20px 22px; }
+    .feature-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .feature-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(157, 200, 166, .24); color: var(--jade); font: 19px var(--serif); }
+    .feature-kicker { color: var(--gold); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; }
+    .feature h2 { margin: 13px 0 3px; font: 17px var(--serif); }
+    .feature p { margin: 0; color: var(--muted); font-size: 11px; }
+    .feature-button { padding: 0; border: 0; background: none; color: inherit; cursor: pointer; text-align: left; }
+    .feature-button:hover h2 { color: var(--gold-bright); }
+    .sect-seal { color: var(--gold); font: 30px var(--serif); opacity: .8; }
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 24px;
+      bottom: 24px;
+      max-width: min(370px, calc(100vw - 32px));
+      padding: 14px 18px;
+      border: 1px solid rgba(215, 187, 122, .48);
+      background: rgba(17, 26, 22, .96);
+      color: var(--gold-bright);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .4);
+      font: 13px/1.5 var(--serif);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity .25s, transform .25s;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    footer { padding: 31px 12px 0; color: rgba(167, 176, 165, .62); font: 10px var(--sans); letter-spacing: .16em; text-align: center; text-transform: uppercase; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+
+    @media (max-width: 850px) {
+      .hero { min-height: 570px; }
+      .dashboard { grid-template-columns: 1fr; }
+      .lower-grid { grid-template-columns: 1fr 1fr; }
+      .feature:last-child { grid-column: 1 / -1; }
+      .wind { right: -6%; }
+      .hero-seal { right: 9%; }
+    }
+    @media (max-width: 560px) {
+      .topbar { min-height: 70px; padding: 0 17px; }
+      .brand-mark { width: 35px; height: 35px; }
+      .brand-name { font-size: 12px; }
+      .top-meta { gap: 9px; font-size: 10px; }
+      .realm-pill { gap: 6px; padding: 7px 8px; font-size: 9px; }
+      .realm-pill svg { width: 12px; }
+      main { padding: 0 15px 38px; }
+      .hero { min-height: 575px; margin: 0 -15px; }
+      .hero-art { width: 170%; max-width: none; left: -40%; }
+      .hero::after { background: linear-gradient(90deg, rgba(13, 20, 17, .88), rgba(13, 20, 17, .37)), linear-gradient(0deg, #111a16 0%, transparent 46%); }
+      .hero-copy { justify-content: flex-end; padding: 0 25px 100px; }
+      .hero-copy p { max-width: 340px; font-size: 14px; }
+      .wind { top: 11%; right: 6%; width: 165px; height: 165px; }
+      .hero-seal { top: 18%; right: 16%; }
+      .hero-caption { right: 18px; bottom: 25px; font-size: 11px; }
+      .panel-head { padding: 18px 17px 14px; }
+      .cultivation-body { grid-template-columns: 65px 1fr; gap: 13px; padding: 5px 17px 17px; }
+      .avatar { width: 64px; height: 64px; font-size: 29px; }
+      .cultivator-name { font-size: 18px; }
+      .cultivator-sub { font-size: 10px; }
+      .cultivation-bottom { margin: 0 17px; }
+      .quest-item { margin: 0 17px; }
+      .lower-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+      .feature:last-child { grid-column: auto; }
+      .feature { min-height: 126px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Divine Immortal Online, beranda">
+      <span class="brand-mark" aria-hidden="true">道</span>
+      <span class="brand-name">DIVINE IMMORTAL<span>ONLINE · ALAM KABUT ABADI</span></span>
+    </a>
+    <div class="top-meta">
+      <span class="realm-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 4 12l8 10 8-10L12 2Z"/><path d="m4 12 8-4 8 4-8 4-8-4Z"/></svg> Ranah Mortal</span>
+      <span style="display:flex;align-items:center;gap:8px"><i class="online-dot" aria-hidden="true"></i> Dunia hidup</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <svg class="hero-art" viewBox="0 0 1600 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pegunungan mistis menjulang di atas lautan awan saat matahari terbit">
+        <defs>
+          <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#65796b"/><stop offset=".48" stop-color="#b39d72"/><stop offset="1" stop-color="#24382e"/></linearGradient>
+          <radialGradient id="sun"><stop stop-color="#f3dcaa" stop-opacity=".85"/><stop offset="1" stop-color="#edce91" stop-opacity="0"/></radialGradient>
+          <linearGradient id="far" x2="0" y2="1"><stop stop-color="#68796b"/><stop offset="1" stop-color="#35483c"/></linearGradient>
+          <linearGradient id="near" x2="0" y2="1"><stop stop-color="#3d5947"/><stop offset="1" stop-color="#17271f"/></linearGradient>
+          <linearGradient id="foreground" x2="0" y2="1"><stop stop-color="#283d30"/><stop offset="1" stop-color="#101b15"/></linearGradient>
+          <filter id="blur"><feGaussianBlur stdDeviation="30"/></filter>
+        </defs>
+        <rect width="1600" height="760" fill="url(#sky)"/>
+        <circle cx="1130" cy="210" r="220" fill="url(#sun)"/>
+        <g fill="#e1d7b4" opacity=".17" filter="url(#blur)">
+          <ellipse cx="1240" cy="425" rx="430" ry="55"/><ellipse cx="680" cy="490" rx="540" ry="75"/>
+          <ellipse cx="1510" cy="540" rx="330" ry="61"/><ellipse cx="280" cy="550" rx="370" ry="55"/>
+        </g>
+        <path d="M0 540 122 421l65 52 172-244 80 119 117-167 116 188 85-113 106 209 108-134 106 136 100-223 142 184 100-98 181 180v250H0Z" fill="url(#far)" opacity=".78"/>
+        <path d="m240 360 119-131 80 119-44-32-37 11-25-38-28 39-35-9Zm330-90 117-159 116 188-46-38-28 19-33-45-21 25-35-35-23 42-19-20-20 27Zm490 175 100-223 142 184-48-38-27 21-33-38-28 34-28-15-26 35Z" fill="#b9bd9d" opacity=".33"/>
+        <path d="M0 572 175 432l93 65 134-130 135 99 128-194 96 154 112-96 95 109 116-151 105 145 99-81 312 170v237H0Z" fill="url(#near)" opacity=".95"/>
+        <path d="m526 466 139-194 96 154-42-34-27 21-34-37-27 35-31-11-27 42-24-20-28 26Zm426 16 116-151 105 145-38-25-28 21-29-34-22 31-31-13-20 27-27-13-18 25Z" fill="#c6c5a5" opacity=".22"/>
+        <path d="M0 620 180 520l103 66 137-84 150 102 125-100 146 73 145-109 116 96 116-71 108 77 174-70v260H0Z" fill="url(#foreground)"/>
+        <g fill="#101b15">
+          <path d="M1050 573h6V455h-6zM1019 495l34-63 35 63-34-17-35 17Zm16 34 31-51 28 51-29-13-30 13Z"/>
+          <path d="M1280 600h5V485h-5zM1252 526l31-55 33 55-32-17-32 17Zm9 30 25-42 26 42-26-12-25 12Z"/>
+          <path d="M730 599h5V492h-5zM702 527l31-57 34 57-33-16-32 16Zm11 31 25-43 26 43-25-12-26 12Z"/>
+        </g>
+        <g stroke="#d7bb7a" stroke-opacity=".22" fill="none">
+          <path d="M0 603c172-50 237 25 387-10s232-44 389 7 267-9 425-17 251 23 399-16"/>
+          <path d="M0 626c172-50 237 25 387-10s232-44 389 7 267-9 425-17 251 23 399-16"/>
+        </g>
+      </svg>
+      <div class="wind" aria-hidden="true"></div>
+      <div class="hero-seal" aria-hidden="true">仙</div>
+      <div class="hero-copy">
+        <div class="eyebrow">Jurnal seorang kultivator</div>
+        <h1 id="hero-title">Kabut<span>Menjaga Rahasia</span></h1>
+        <p>Di puncak yang disentuh awan, setiap tarikan napas adalah jalan menuju keabadian. Tenangkan hati—Qi langit dan bumi menanti.</p>
+        <button class="primary-action" id="exploreButton" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3 3.5 20.5l8.5-4 8.5 4L12 3Z"/><path d="m12 3 0 13.5"/></svg>
+          Jelajahi alam
+        </button>
+      </div>
+      <div class="hero-caption">“Jalan terjauh dimulai dari keheningan.”<span>Catatan dari Puncak Yun</span></div>
+    </section>
+
+    <section class="dashboard" aria-label="Status kultivator dan misi">
+      <article class="panel cultivation">
+        <div class="panel-head">
+          <h2 class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4"/></svg> Inti Kultivasi</h2>
+          <span class="panel-label">Karakter</span>
+        </div>
+        <div class="cultivation-body">
+          <div class="avatar" aria-hidden="true">雲</div>
+          <div>
+            <div class="cultivator-name">Pengelana Yun</div>
+            <div class="cultivator-sub"><strong>Qi Condensation</strong> · Tahap Ke-7</div>
+            <div class="progress-head"><span>Menuju tahap berikutnya</span><strong id="progressLabel">64%</strong></div>
+            <div class="progress-track" role="progressbar" aria-label="Progres kultivasi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cultivation-bottom">
+          <div class="qi-value"><span id="qiValue">2.480</span><small>QI</small></div>
+          <button class="meditate-button" id="meditateButton" type="button" aria-pressed="false">◉ &nbsp; Mulai meditasi</button>
+        </div>
+      </article>
+
+      <article class="panel quest-panel">
+        <div class="panel-head">
+          <h2 class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4V3Z"/><path d="M9 8h6m-6 4h6"/></svg> Takdir Hari Ini</h2>
+          <span class="quest-count">01 / 03</span>
+        </div>
+        <div class="quest-item">
+          <span class="quest-icon" aria-hidden="true">☯</span>
+          <div><div class="quest-name">Serap Embun Spiritual</div><div class="quest-desc">Meditasi selama 30 detik</div></div>
+          <span class="quest-reward">+120 Qi</span>
+        </div>
+        <div class="quest-item">
+          <span class="quest-icon" aria-hidden="true">山</span>
+          <div><div class="quest-name">Jejak di Puncak Yun</div><div class="quest-desc">Jelajahi alam berkabut</div></div>
+          <span class="quest-reward">+80 Qi</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="lower-grid" aria-label="Pintu menuju dunia">
+      <article class="panel feature">
+        <button class="feature-button" id="inventoryButton" type="button">
+          <span class="feature-top"><span class="feature-icon" aria-hidden="true">✧</span><span class="feature-kicker">Warisan kuno</span></span>
+          <h2>Kantung Dimensi</h2>
+          <p>3 artefak · 12 pil spiritual</p>
+        </button>
+      </article>
+      <article class="panel feature">
+        <button class="feature-button" id="sectButton" type="button">
+          <span class="feature-top"><span class="feature-icon" aria-hidden="true">門</span><span class="feature-kicker">Sekte Teratai Giok</span></span>
+          <h2>Aula Sekte</h2>
+          <p>Peringkat murid: Pelataran Luar</p>
+        </button>
+      </article>
+      <article class="panel feature">
+        <div class="feature-top"><span class="feature-icon" aria-hidden="true">☽</span><span class="sect-seal" aria-hidden="true">天</span></div>
+        <h2>Waktu di Alam Mortal</h2>
+        <p id="worldClock">Zi Shi · Bulan Embun · Tahun 1087</p>
+      </article>
+    </section>
+    <footer>Divine Immortal Online <span aria-hidden="true">·</span> Semesta menanti mereka yang tekun</footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      var qi = 2480;
+      var progress = 64;
+      var meditationTimer = null;
+      var toastTimer = null;
+      var meditationSeconds = 0;
+      var button = document.getElementById("meditateButton");
+      var progressFill = document.getElementById("progressFill");
+      var progressLabel = document.getElementById("progressLabel");
+      var progressTrack = document.querySelector('[role="progressbar"]');
+
+      function showToast(message) {
+        var toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () { toast.classList.remove("show"); }, 2800);
+      }
+
+      function renderQi() {
+        document.getElementById("qiValue").textContent = qi.toLocaleString("id-ID");
+        progressFill.style.width = progress + "%";
+        progressLabel.textContent = progress + "%";
+        progressTrack.setAttribute("aria-valuenow", progress);
+      }
+
+      button.addEventListener("click", function () {
+        if (meditationTimer) {
+          window.clearInterval(meditationTimer);
+          meditationTimer = null;
+          button.classList.remove("active");
+          button.setAttribute("aria-pressed", "false");
+          button.innerHTML = "◉ &nbsp; Mulai meditasi";
+          showToast(meditationSeconds >= 30
+            ? "Meditasi selesai. Embun spiritual memberimu +120 Qi."
+            : "Meditasi berakhir. Ketenangan yang terkumpul tetap menjadi milikmu.");
+          if (meditationSeconds >= 30) {
+            qi += 120;
+            progress = Math.min(100, progress + 4);
+            renderQi();
+          }
+          return;
+        }
+        meditationSeconds = 0;
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+        button.textContent = "◉  Heningkan diri · 0:00";
+        showToast("Tarik napas perlahan. Qi langit mengalir ke dalam dantian...");
+        meditationTimer = window.setInterval(function () {
+          meditationSeconds += 1;
+          var minutes = Math.floor(meditationSeconds / 60);
+          var seconds = String(meditationSeconds % 60).padStart(2, "0");
+          button.textContent = "◉  Heningkan diri · " + minutes + ":" + seconds;
+          if (meditationSeconds === 30) {
+            window.clearInterval(meditationTimer);
+            meditationTimer = null;
+            button.classList.remove("active");
+            button.setAttribute("aria-pressed", "false");
+            button.innerHTML = "◉ &nbsp; Selesaikan meditasi";
+            qi += 120;
+            progress = Math.min(100, progress + 4);
+            renderQi();
+            showToast("Terobosan kecil! Embun spiritual memberimu +120 Qi.");
+          }
+        }, 1000);
+      });
+
+      document.getElementById("exploreButton").addEventListener("click", function () {
+        showToast("Kamu melangkah ke Puncak Yun. Udara dipenuhi energi spiritual.");
+      });
+      document.getElementById("inventoryButton").addEventListener("click", function () {
+        showToast("Kantung Dimensi: Pedang Bambu Giok · Pil Pemulih Qi · Jimat Penjaga.");
+      });
+      document.getElementById("sectButton").addEventListener("click", function () {
+        showToast("Aula Sekte Teratai Giok sedang tenang. Para murid berlatih di halaman.");
+      });
+    }());
+  </script>
+</body>
+</html>
