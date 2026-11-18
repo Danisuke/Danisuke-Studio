@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Danisuke Studio — Divine Immortal Online & Immortal of Destiny</title>
-<meta name="description" content="Danisuke Studio: dunia virtual fantasi Divine Immortal Online dan Immortal of Destiny.">
+<title>Danisuke Studio — Cultivation Game Studio</title>
+<meta name="description" content="Danisuke Studio: dunia virtual fantasi dan kultivasi.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -188,7 +188,7 @@ footer b{font-family:var(--display);letter-spacing:.2em;color:var(--cyan)}
 <!-- BOOT SEQUENCE -->
 <div id="boot">
   <div class="ring"><i></i><i></i><i></i></div>
-  <div class="boot-text" id="bootText">MENGHUBUNGKAN NERVE LINK...</div>
+  <div class="boot-text" id="bootText">MENGHUBUNGKAN SPIRITUAL ROOT...</div>
   <div class="boot-bar"><b id="bootBar"></b></div>
   <button class="skip" id="skip">[ LEWATI ]</button>
 </div>
@@ -232,9 +232,9 @@ footer b{font-family:var(--display);letter-spacing:.2em;color:var(--cyan)}
     <g stroke="#6fdcff" stroke-opacity=".5"><path d="M400 340H800M470 300H730M520 260H680"/></g>
   </svg>
   <div class="hero-inner">
-    <div class="tag">SISTEM ONLINE · SERVER AKTIF</div>
+    <div class="tag">SISTEM ONLINE · DAO IMMORTAL</div>
     <h1>DIVINE IMMORTAL ONLINE<em>& IMMORTAL OF DESTINY</em></h1>
-    <p>Dua dunia. Satu takdir. Masuki alam kultivasi abadi, tempa pedangmu, dan tulis legendamu bersama Danisuke Studio.</p>
+    <p>Masuki alam kultivasi abadi, tempa pedangmu, dan tulis legendamu bersama Danisuke Studio.</p>
     <div class="btns">
       <a href="#games" class="btn primary">MULAI PETUALANGAN</a>
       <a href="#join" class="btn ghost">DAFTAR BETA</a>
@@ -389,7 +389,7 @@ footer b{font-family:var(--display);letter-spacing:.2em;color:var(--cyan)}
 /* BOOT */
 (function(){
   const boot=document.getElementById('boot'),bar=document.getElementById('bootBar'),t=document.getElementById('bootText');
-  const msgs=['MENGHUBUNGKAN NERVE LINK...','MEMUAT DUNIA VIRTUAL...','SINKRONISASI AVATAR...','SELAMAT DATANG, PEMAIN'];
+  const msgs=['MENGHUBUNGKAN SPIRITUAL ROOT...','MEMUAT DUNIA IMMORTAL...','SINKRONISASI AVATAR...','SELAMAT DATANG, PEMAIN'];
   let p=0,i=0;
   const iv=setInterval(()=>{p+=Math.random()*9+3;if(p>=100){p=100;clearInterval(iv);setTimeout(end,500)}
     bar.style.width=p+'%';const k=Math.min(msgs.length-1,Math.floor(p/26));if(k!==i){i=k;t.textContent=msgs[k]}},110);
