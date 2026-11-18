@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Tersesat di Alam Kekosongan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+SC:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-void: #07090e;
+            --bg-abyss: #0d121d;
+            --gold-qi: #e5b869;
+            --gold-glow: rgba(229, 184, 105, 0.35);
+            --jade-qi: #38d9a9;
+            --jade-glow: rgba(56, 217, 169, 0.25);
+            --crimson-tribulation: #ff4d4f;
+            --text-primary: #f1ece1;
+            --text-muted: #9aa5b1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            background-image: 
+                radial-gradient(circle at 50% 45%, #131c2e 0%, var(--bg-void) 75%);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        /* Canvas Partikel Qi */
+        #qi-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Lapisan Kabut Misterius */
+        .mist-layer {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at bottom, rgba(56, 217, 169, 0.06) 0%, transparent 60%);
+            z-index: 1;
+            pointer-events: none;
+            animation: mistPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes mistPulse {
+            0% { opacity: 0.4; transform: scale(1); }
+            100% { opacity: 0.9; transform: scale(1.05); }
+        }
+
+        /* Kontainer Utama */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 680px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Formasi Bagua / Array Dao yang Berputar */
+        .dao-formation {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .formation-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 12px var(--gold-glow));
+        }
+
+        .ring-outer {
+            transform-origin: center;
+            animation: spinClockwise 36s linear infinite;
+        }
+
+        .ring-inner {
+            transform-origin: center;
+            animation: spinCounterClockwise 24s linear infinite;
+        }
+
+        @keyframes spinClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes spinCounterClockwise {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* Angka 404 di Tengah Formasi */
+        .error-code {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4.25rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(180deg, #fff5d6 0%, var(--gold-qi) 55%, #9e6b21 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(229, 184, 105, 0.3);
+            position: relative;
+            z-index: 3;
+            user-select: none;
+        }
+
+        /* Segel Karakter Hanzi di Atas */
+        .realm-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 1.1rem;
+            border: 1px solid rgba(229, 184, 105, 0.35);
+            background: rgba(13, 18, 29, 0.75);
+            backdrop-filter: blur(6px);
+            border-radius: 999px;
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold-qi);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 15px rgba(229, 184, 105, 0.1);
+        }
+
+        .hanzi {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            color: var(--jade-qi);
+            font-size: 0.95rem;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.5rem, 4vw, 2.15rem);
+            color: var(--text-primary);
+            margin-bottom: 0.85rem;
+            line-height: 1.3;
+            letter-spacing: 0.03em;
+        }
+
+        .lore-text {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 540px;
+            margin-bottom: 2rem;
+        }
+
+        .lore-text strong {
+            color: var(--jade-qi);
+            font-weight: 600;
+        }
+
+        /* Kotak Pengingat Dao / Kutipan Acak */
+        .dao-scroll {
+            background: linear-gradient(145deg, rgba(19, 28, 46, 0.7), rgba(10, 14, 23, 0.85));
+            border-left: 3px solid var(--gold-qi);
+            border-right: 3px solid var(--gold-qi);
+            border-top: 1px solid rgba(229, 184, 105, 0.2);
+            border-bottom: 1px solid rgba(229, 184, 105, 0.2);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2.25rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .dao-scroll p {
+            font-style: italic;
+            font-size: 0.92rem;
+            color: #d8dee9;
+            line-height: 1.5;
+        }
+
+        /* Tombol Jimat Teleportasi */
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .talisman-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.9rem 1.85rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            color: #0b0e14;
+            background: linear-gradient(135deg, #f3cf83 0%, #d49b3b 100%);
+            border: 1px solid #ffe7b3;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .talisman-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(229, 184, 105, 0.65);
+            background: linear-gradient(135deg, #ffe09e 0%, #e5b050 100%);
+        }
+
+        .talisman-btn:active {
+            transform: translateY(0);
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.6rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--jade-qi);
+            background: rgba(56, 217, 169, 0.08);
+            border: 1px solid rgba(56, 217, 169, 0.4);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(56, 217, 169, 0.16);
+            box-shadow: 0 0 20px var(--jade-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Status Kultivasi di Bagian Bawah */
+        .cultivation-status {
+            margin-top: 2.5rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .qi-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--crimson-tribulation);
+            box-shadow: 0 0 8px var(--crimson-tribulation);
+            animation: blink 1.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @media (max-width: 480px) {
+            .dao-formation {
+                width: 190px;
+                height: 190px;
+            }
+            .error-code {
+                font-size: 3.3rem;
+            }
+            .actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .talisman-btn, .secondary-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="qi-canvas"></canvas>
+    <div class="mist-layer"></div>
+
+    <main class="container">
+        <div class="realm-badge">
+            <span class="hanzi">虚空迷境</span>
+            <span>•</span>
+            <span>Distorsi Ruang & Waktu</span>
+        </div>
+
+        <!-- Formasi Susunan Dao (SVG) -->
+        <div class="dao-formation" aria-hidden="true">
+            <svg class="formation-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Lingkaran Luar Berputar -->
+                <g class="ring-outer">
+                    <circle cx="120" cy="120" r="112" stroke="#e5b869" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+                    <circle cx="120" cy="120" r="102" stroke="#e5b869" stroke-width="1.5" opacity="0.8"/>
+                    <!-- Segi Delapan (Bagua) -->
+                    <polygon points="120,18 192,48 222,120 192,192 120,222 48,192 18,120 48,48" stroke="#e5b869" stroke-width="1" opacity="0.45"/>
+                    <!-- Titik Energi Kardinal -->
+                    <circle cx="120" cy="18" r="3" fill="#38d9a9"/>
+                    <circle cx="222" cy="120" r="3" fill="#38d9a9"/>
+                    <circle cx="120" cy="222" r="3" fill="#38d9a9"/>
+                    <circle cx="18" cy="120" r="3" fill="#38d9a9"/>
+                </g>
+                <!-- Lingkaran Dalam Berlawanan Arah -->
+                <g class="ring-inner">
+                    <circle cx="120" cy="120" r="82" stroke="#38d9a9" stroke-width="1" stroke-dasharray="2 6" opacity="0.7"/>
+                    <rect x="64" y="64" width="112" height="112" stroke="#e5b869" stroke-width="1" opacity="0.35"/>
+                    <rect x="64" y="64" width="112" height="112" transform="rotate(45 120 120)" stroke="#e5b869" stroke-width="1" opacity="0.35"/>
+                </g>
+            </svg>
+            <div class="error-code">404</div>
+        </div>
+
+        <h1>Tersesat di Alam Kekosongan</h1>
+        
+        <p class="lore-text">
+            Rekan Daois, gulungan giok yang Anda cari telah hancur ditelan <strong>Badai Ruang-Waktu</strong> atau tersembunyi di balik formasi penyegel tingkat tinggi. Melangkah lebih jauh dapat memicu <em>Penyimpangan Qi (Qi Deviation)</em>.
+        </p>
+
+        <div class="dao-scroll">
+            <p id="dao-quote">"Langit dan Bumi tidak berpihak; ketika jalan di depan terputus, kembalilah ke sumber asal untuk menenangkan Lautan Kesadaran."</p>
+        </div>
+
+        <div class="actions">
+            <a href="/" class="talisman-btn">
+                <span>⚡ Aktifkan Jimat Kembali ke Sekte</span>
+            </a>
+            <button onclick="history.back()" class="secondary-btn">
+                <span>↺ Mundur Satu Langkah</span>
+            </button>
+        </div>
+
+        <div class="cultivation-status">
+            <span class="qi-dot"></span>
+            <span>Peringatan Formasi: Jalur Spiritual Tidak Ditemukan (Kode: 404)</span>
+        </div>
+    </main>
+
+    <script>
+        // Kutipan Dao acak setiap kali halaman dimuat ulang
+        const quotes = [
+            '"Langit dan Bumi tidak berpihak; ketika jalan di depan terputus, kembalilah ke sumber asal untuk menenangkan Lautan Kesadaran."',
+            '"Sepuluh ribu jalan menuju Keabadian, namun halaman ini bukan salah satunya."',
+            '"Bahkan Pendekar Pedang Abadi pun sesekali tersesat saat menembus kehampaan."',
+            '"Tarik napas dalam, alirkan Qi ke Dantian, dan gunakan jimat teleportasi di bawah untuk kembali."'
+        ];
+        document.getElementById('dao-quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+        // Animasi Partikel Energi Spiritual (Qi)
+        const canvas = document.getElementById('qi-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class QiParticle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 2.4 + 0.6;
+                this.speedY = Math.random() * 0.7 + 0.25;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.alpha = Math.random() * 0.6 + 0.2;
+                // Warna emas Qi atau hijau giok
+                this.color = Math.random() > 0.35 ? '229, 184, 105' : '56, 217, 169';
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = `rgba(${this.color}, 0.8)`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 18000));
+            for (let i = 0; i < count; i++) {
+                const p = new QiParticle();
+                p.y = Math.random() * canvas.height;
+                particles.push(p);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
