@@ -4,298 +4,114 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>404 // SYSTEM ALERT - CARDINAL ERROR</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --sao-red: #ff2a55;
-      --sao-red-glow: rgba(255, 42, 85, 0.55);
       --sao-cyan: #00e5ff;
-      --sao-gold: #ffaa00;
       --bg-dark: #07090e;
-      --panel-bg: rgba(16, 20, 30, 0.78);
-      --border-light: rgba(255, 255, 255, 0.16);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg-dark);
       color: #ffffff;
       font-family: 'Rajdhani', sans-serif;
       height: 100vh;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       position: relative;
     }
-
-    /* Background Grid & Ambient Vignette */
     .bg-grid {
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      transform: perspective(600px) rotateX(25deg) scale(1.2);
-      transform-origin: center top;
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
       z-index: 0;
-      animation: gridMove 18s linear infinite;
     }
-
-    @keyframes gridMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 48px; }
-    }
-
-    .vignette {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.88) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Scanline Overlay */
-    .scanlines {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%, 
-        rgba(0, 0, 0, 0.35) 50%
-      );
-      background-size: 100% 4px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    canvas#particles {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Top Left SAO Player HP/Status Bar */
-    .hud-top-left {
-      position: absolute;
-      top: 24px;
-      left: 28px;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(15, 18, 25, 0.75);
-      border: 1px solid var(--border-light);
-      border-left: 4px solid var(--sao-red);
-      padding: 10px 18px;
-      clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .player-name {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.85rem;
-      letter-spacing: 1.5px;
-      color: #e2e8f0;
-    }
-
-    .hp-bar-container {
-      width: 180px;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      transform: skewX(-20deg);
-      overflow: hidden;
-      margin-top: 4px;
-    }
-
-    .hp-bar-fill {
-      height: 100%;
-      width: 14%;
-      background: linear-gradient(90deg, #b91c1c, var(--sao-red));
-      box-shadow: 0 0 10px var(--sao-red);
-      animation: hpPulse 1.5s infinite alternate;
-    }
-
-    @keyframes hpPulse {
-      from { opacity: 0.7; }
-      to { opacity: 1; }
-    }
-
-    .hp-text {
-      font-size: 0.75rem;
-      color: var(--sao-red);
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-top: 3px;
-    }
-
-    /* Audio Toggle Button */
-    .sound-toggle {
-      position: absolute;
-      top: 24px;
-      right: 28px;
-      z-index: 10;
-      background: rgba(15, 18, 25, 0.75);
-      border: 1px solid var(--border-light);
-      color: var(--sao-cyan);
-      padding: 8px 14px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s ease;
-    }
-
-    .sound-toggle:hover {
-      border-color: var(--sao-cyan);
-      box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
-    }
-
-    /* Main SAO System Alert Window */
     .sao-window {
       position: relative;
       z-index: 5;
       width: 90%;
-      max-width: 540px;
-      background: var(--panel-bg);
-      border: 1px solid rgba(255, 42, 85, 0.5);
-      box-shadow: 
-        0 0 40px rgba(255, 42, 85, 0.22),
-        inset 0 0 24px rgba(255, 42, 85, 0.08);
-      backdrop-filter: blur(14px);
-      animation: windowPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      max-width: 500px;
+      background: rgba(16, 20, 30, 0.9);
+      border: 1px solid rgba(255, 42, 85, 0.6);
+      box-shadow: 0 0 30px rgba(255, 42, 85, 0.25);
     }
-
-    @keyframes windowPop {
-      0% {
-        opacity: 0;
-        transform: scale(0.88) translateY(15px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    /* Alert Header */
     .window-header {
-      background: linear-gradient(90deg, rgba(255, 42, 85, 0.85), rgba(180, 20, 50, 0.65));
-      padding: 12px 20px;
+      background: linear-gradient(90deg, #ff2a55, #b41432);
+      padding: 10px 16px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    }
-
-    .header-title {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 2.5px;
-      display: flex;
       align-items: center;
-      gap: 10px;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     }
-
-    .warning-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      font-weight: 900;
-      font-size: 0.8rem;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.35; }
-    }
-
-    .header-code {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.75rem;
-      opacity: 0.85;
-      letter-spacing: 1px;
-    }
-
-    /* Window Body */
     .window-body {
-      padding: 32px 28px;
+      padding: 30px 24px;
       text-align: center;
-      position: relative;
     }
-
     .error-code {
       font-family: 'Orbitron', sans-serif;
-      font-size: 4.5rem;
+      font-size: 4rem;
       font-weight: 900;
-      line-height: 1;
-      color: #ffffff;
-      text-shadow: 
-        0 0 20px var(--sao-red-glow),
-        2px 0 var(--sao-red),
-        -2px 0 var(--sao-cyan);
-      letter-spacing: 6px;
-      margin-bottom: 8px;
-      position: relative;
-      animation: glitchText 3.5s infinite;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 42, 85, 0.7);
+      margin-bottom: 5px;
     }
-
-    @keyframes glitchText {
-      0%, 92%, 100% { transform: translate(0); }
-      94% { transform: translate(-3px, 1px); }
-      96% { transform: translate(3px, -1px); }
-      98% { transform: translate(-2px, -1px); }
-    }
-
     .error-subtitle {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
+      font-size: 1rem;
       color: var(--sao-red);
-      letter-spacing: 3px;
-      margin-bottom: 18px;
-      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
     }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      margin: 18px 0;
-    }
-
     .system-message {
-      font-size: 1.08rem;
-      line-height: 1.6;
+      font-size: 1rem;
       color: #cbd5e1;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
     }
-
-    .path-display {
+    .home-btn {
       display: inline-block;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 42, 85, 0.35);
-      padding: 6px 14px;
-      font-family: monospace;
-      font-size: 0.88rem;
-      color: var(--sao-gold);
-      margin-bottom: 24px;
-      max-width: 100%;
-      overflow:
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--sao-cyan);
+      color: var(--sao-cyan);
+      padding: 10px 24px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .home-btn:hover {
+      background: rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <div class="sao-window">
+    <div class="window-header">
+      <span>SYSTEM ALERT</span>
+      <span>ERR_404</span>
+    </div>
+    <div class="window-body">
+      <div class="error-code">404</div>
+      <div class="error-subtitle">Sector Not Found</div>
+      <p class="system-message">
+        Koordinat halaman yang kamu tuju tidak terdaftar di dalam sistem Aincrad.
+      </p>
+      <a href="/" class="home-btn">TELEPORT HOME</a>
+    </div>
+  </div>
+
+</body>
+</html>
